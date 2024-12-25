@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  # Frontend Service (React)
+  frontend:
+    build:
+      context: ./frontend  # Path to your frontend project
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend  # This ensures that the backend is ready before frontend starts
+  
+  # Backend Service (Flask)
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://habit_user:habit_password@db:5432/habit_db
+    command: flask run --host=0.0.0.0
+
+  # Database Service (PostgreSQL)
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=habit_user
+      - POSTGRES_PASSWORD=habit_password
+      - POSTGRES_DB=habit_db
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres_data:
