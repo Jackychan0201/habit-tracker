@@ -13,5 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Expose the port the app runs on
 EXPOSE 5000
 
-# Run the application
-CMD ["python", "app.py"]
+# Add the initialization script
+COPY init_backend.sh /init_backend.sh
+RUN chmod +x /init_backend.sh
+
+# Start the initialization script
+ENTRYPOINT ["/init_backend.sh"]
