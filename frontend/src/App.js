@@ -6,7 +6,6 @@ function App() {
   const [newHabit, setNewHabit] = useState({ name: '', description: '', frequency: '' });
   const [editingHabit, setEditingHabit] = useState(null);
 
-  // Fetch all habits from the API when the component mounts
   useEffect(() => {
     fetch('http://localhost:5000/habits')
       .then(response => response.json())
@@ -14,13 +13,11 @@ function App() {
       .catch(error => console.error('Error fetching habits:', error));
   }, []);
 
-  // Handle form input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewHabit({ ...newHabit, [name]: value });
   };
 
-  // Handle form submission to add a new habit
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -39,7 +36,6 @@ function App() {
       .catch(error => console.error('Error adding habit:', error));
   };
 
-  // Handle deleting a habit
   const handleDelete = (id) => {
     fetch(`http://localhost:5000/habits/${id}`, {
       method: 'DELETE',
@@ -54,12 +50,10 @@ function App() {
       .catch(error => console.error('Error deleting habit:', error));
   };
 
-  // Handle editing a habit
   const handleEdit = (habit) => {
     setEditingHabit(habit);
   };
 
-  // Handle updating a habit
   const handleEditSubmit = (e) => {
     e.preventDefault();
 
@@ -83,7 +77,7 @@ function App() {
       <h1>Habit Tracker</h1>
 
       <div className="form-container">
-        {/* Add Habit Form */}
+        {/*Forma do dodania nawyku*/}
         <form className="habit-form" onSubmit={handleSubmit}>
           <h2>Add New Habit</h2>
           <div className="form-group">
@@ -125,7 +119,7 @@ function App() {
           <button type="submit" className="submit-button">Add Habit</button>
         </form>
 
-        {/* Edit Habit Form */}
+        {/*Forma do edytowania nawyku*/}
         {editingHabit && (
           <form className="habit-form" onSubmit={handleEditSubmit}>
             <h2>Edit Habit</h2>
@@ -168,7 +162,7 @@ function App() {
         )}
       </div>
 
-      {/* List of Habits */}
+      {/*Lista  nawyków*/}
       <div className="habit-list">
         <h2>Your Habits</h2>
         <ul style={{paddingLeft: 0}}>

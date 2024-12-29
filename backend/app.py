@@ -7,33 +7,29 @@ import os
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"])
 
-# Set up the database URL
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://habit_user:habit_password@db:5432/habit_db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Create db instance
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-# Habit Model
 class Habit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(100), nullable=False)
-    frequency = db.Column(db.String(20), nullable=False)  # New field for frequency
+    frequency = db.Column(db.String(20), nullable=False) 
 
 @app.route('/')
 def home():
     return jsonify({"message": "Welcome to the Habit Tracker API!"})
 
-# Add habit endpoint
 @app.route('/habits', methods=['POST'])
 def add_habit():
     try:
         data = request.get_json()
         name = data['name']
         description = data['description']
-        frequency = data['frequency']  # Get frequency from the request body
+        frequency = data['frequency']
         
         new_habit = Habit(name=name, description=description, frequency=frequency)
         db.session.add(new_habit)
@@ -48,7 +44,6 @@ def add_habit():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-# Update habit endpoint
 @app.route('/habits/<int:id>', methods=['PUT'])
 def update_habit(id):
     habit = Habit.query.get(id)
@@ -59,7 +54,7 @@ def update_habit(id):
         data = request.get_json()
         habit.name = data['name']
         habit.description = data['description']
-        habit.frequency = data['frequency']  # Update frequency
+        habit.frequency = data['frequency'] 
 
         db.session.commit()
         return jsonify({
@@ -71,18 +66,16 @@ def update_habit(id):
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-# List habits endpoint
-@app.route('/habits')
+@app.route('/habits', methods=['GET'])
 def get_habits():
     habits = Habit.query.all()
     return jsonify([{
         'id': habit.id,
         'name': habit.name,
         'description': habit.description,
-        'frequency': habit.frequency  # Include frequency in the response
+        'frequency': habit.frequency 
     } for habit in habits])
 
-# Delete habit endpoint
 @app.route('/habits/<int:id>', methods=['DELETE'])
 def delete_habit(id):
     habit = Habit.query.get(id)

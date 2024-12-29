@@ -1,20 +1,20 @@
-# Node.js
+#Node.js
 node_modules/
 npm-debug.log
 
-# React
+#React
 build/
 .env
 
-# Docker
+#Docker
 .docker/
 docker-compose.override.yml
 
-# Logs
+#Logs
 *.log
 
-# macOS
+#macOS
 .DS_Store
 
-# Windows
+#Windows
 Thumbs.db

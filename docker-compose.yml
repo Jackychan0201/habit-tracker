@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-  # Frontend Service (React)
+  #Frontend - napisane za pomocą frameworku React
   frontend:
     build:
-      context: ./frontend  # Path to your frontend project
+      context: ./frontend  #ścieżka do frontend-części projektu
     ports:
       - "3000:3000"
     depends_on:
-      - backend  # This ensures that the backend is ready before frontend starts
+      - backend  #ten wiersz upewnia się że frontend uruchamia się dopiero po tym jak backend jest gotowy do użycia
   
-  # Backend Service (Flask)
+  #Backend - napisane za pomocą frameworku Flask
   backend:
     build: ./backend
     ports:
@@ -20,7 +20,7 @@ services:
       - DATABASE_URL=postgresql://habit_user:habit_password@db:5432/habit_db
     command: flask run --host=0.0.0.0
 
-  # Database Service (PostgreSQL)
+  #Baza dabych - PostgreSQL
   db:
     image: postgres:13
     volumes:
