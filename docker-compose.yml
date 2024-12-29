@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  #Frontend - napisane za pomocą frameworku React
+  #Frontend
   frontend:
     build:
       context: ./frontend  #ścieżka do frontend-części projektu
@@ -9,7 +9,7 @@ services:
     depends_on:
       - backend  #ten wiersz upewnia się że frontend uruchamia się dopiero po tym jak backend jest gotowy do użycia
   
-  #Backend - napisane za pomocą frameworku Flask
+  #Backend
   backend:
     build: ./backend
     ports:
@@ -20,7 +20,7 @@ services:
       - DATABASE_URL=postgresql://habit_user:habit_password@db:5432/habit_db
     command: flask run --host=0.0.0.0
 
-  #Baza dabych - PostgreSQL
+  #Baza dabych
   db:
     image: postgres:13
     volumes:
